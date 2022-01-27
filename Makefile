@@ -25,10 +25,9 @@ all: material
 
 material:
 	python mk-material.py
-	$(DEL_FILE) material-*.qrc
-	$(DEL_DIR) icons
 
 material-clean:
-	$(DEL_FILE) material-*.qss material-*.rcc
+	$(DEL_FILE) material-*.qss material-*.qrc material-*.rcc
+	$(DEL_DIR) material-dark material-light
 
 clean: material-clean
