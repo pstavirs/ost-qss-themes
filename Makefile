@@ -25,7 +25,7 @@ endif
 
 .PHONY: all clean
 .PHONY: material material-clean
-.PHONY: qds qds-dark qds-clean
+.PHONY: qds qds-dark qds-light qds-clean
 
 all: material qds
 
@@ -38,7 +38,7 @@ material-clean:
 	-$(DEL_FILE) material-*.qss material-*.qrc material-*.rcc
 	-$(DEL_DIR) material-dark material-light
 
-qds: qds-dark
+qds: qds-dark qds-light
 
 qds-dark:
 	sed -e 's;url(".*/rc;url(":/ostinato.org/themes/qds-dark/rc;' \
@@ -51,6 +51,18 @@ qds-dark:
 	    -e 's;style.qss;;' \
 	    qds$(S)dark$(S)style.qrc > qds-dark.qrc
 	rcc --binary -o qds-dark.rcc qds-dark.qrc
+
+qds-light:
+	sed -e 's;url(".*/rc;url(":/ostinato.org/themes/qds-light/rc;' \
+	    qds$(S)light$(S)style.qss > qds-light.qss
+	$(CAT) qds$(S)version.txt >> qds-light.qss
+	-mkdir qds-light
+	$(CPDIR) qds$(S)light qds-light$(S)
+	sed -e 's;prefix=".*";prefix="ostinato.org/themes";' \
+	    -e 's;rc/;qds-light/rc/;' \
+	    -e 's;style.qss;;' \
+	    qds$(S)light$(S)style.qrc > qds-light.qrc
+	rcc --binary -o qds-light.rcc qds-light.qrc
 
 qds-clean:
 	-$(DEL_FILE) qds-*.qss qds-*.qrc qds-*.rcc
