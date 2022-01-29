@@ -23,7 +23,8 @@ else
     S=/
 endif
 
-.PHONY: all clean
+.PHONY: all clean distclean
+.PHONY: install uninstall
 .PHONY: material material-clean
 .PHONY: qds qds-dark qds-light qds-clean
 
@@ -67,3 +68,17 @@ qds-light:
 qds-clean:
 	-$(DEL_FILE) qds-*.qss qds-*.qrc qds-*.rcc
 	-$(DEL_DIR) qds-dark qds-light
+
+install: all
+	-mkdir themes
+	$(CP) material-*.qss themes
+	$(CP) material-*.rcc themes
+	$(CP) qds-*.qss themes
+	$(CP) qds-*.rcc themes
+	dos2unix themes/*.qss
+
+uninstall:
+	-$(DEL_DIR) themes
+
+distclean: uninstall clean
+
